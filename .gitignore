@@ -1,0 +1,34 @@
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+
+# Logs
+logs/
+*.log
+
+# Target directory
+target/
+
+# Maven specific files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Java specific files
+*.class
+
+# Spring Boot specific files
+*.jar
+*.war
+*.ear
+
+# Temporary files
+*.swp
+*.swo

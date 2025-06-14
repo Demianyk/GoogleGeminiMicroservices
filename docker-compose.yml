@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  discovery:
+    build: ./discovery
+    ports:
+      - "8761:8761"
+    networks:
+      - net
+
+  gemini-ai-agent:
+    build: ./gemini-ai-agent
+    depends_on:
+      - discovery
+    networks:
+      - net
+    ports:
+      - "8081:8081"
+
+  telegram-bot:
+    build: ./telegram-bot
+    depends_on:
+      - discovery
+      - gemini-ai-agent
+    ports:
+      - "8082:8082"
+    networks:
+      - net
+
+networks:
+  net:
