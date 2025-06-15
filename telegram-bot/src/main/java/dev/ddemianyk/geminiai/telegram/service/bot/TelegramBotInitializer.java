@@ -1,22 +1,23 @@
 package dev.ddemianyk.geminiai.telegram.service.bot;
 
+import dev.ddemianyk.geminiai.telegram.model.TelegramCredentials;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 @Component
+@RequiredArgsConstructor
 public class TelegramBotInitializer {
     private final TelegramBot telegramBot;
-    private final TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication();
+    private final TelegramCredentials telegramCredentials;
+    private final TelegramBotsLongPollingApplication botsApplication;
 
-    public TelegramBotInitializer(TelegramBot telegramBot) {
-        this.telegramBot = telegramBot;
-    }
 
     @PostConstruct
     public void start() {
         try {
-            botsApplication.registerBot(telegramBot.getBotToken(), telegramBot);
+            botsApplication.registerBot(telegramCredentials.apiToken(), telegramBot);
         } catch (Exception e) {
             e.printStackTrace();
         }

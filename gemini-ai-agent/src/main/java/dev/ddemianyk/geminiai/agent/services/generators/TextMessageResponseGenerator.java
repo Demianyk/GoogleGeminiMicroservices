@@ -1,23 +1,25 @@
-package dev.ddemianyk.geminiai.agent;
+package dev.ddemianyk.geminiai.agent.services.generators;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import dev.ddemianyk.geminiai.agent.config.ModelProperties;
+import dev.ddemianyk.geminiai.agent.model.UserMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class AiService {
+public class TextMessageResponseGenerator implements ResponseGenerator {
 
     private final ModelProperties modelProperties;
 
-    public String generate(String userMessage) {
+    @Override
+    public String generate(UserMessage userMessage) {
         try (Client client = new Client()) {
             // Send the user message to the Gemini modelName and return a response
             return client.models.generateContent(
                     modelProperties.modelName(),
-                    userMessage,
+                    userMessage.text(),
                     GenerateContentConfig.builder()
                             .build()).text();
         } catch (Exception e) {

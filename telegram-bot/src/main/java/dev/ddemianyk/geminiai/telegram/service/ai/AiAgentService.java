@@ -2,10 +2,18 @@ package dev.ddemianyk.geminiai.telegram.service.ai;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+import dev.ddemianyk.geminiai.telegram.model.UserMessage;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
+import java.util.Objects;
 
 @Service
 public class AiAgentService {
@@ -17,26 +25,53 @@ public class AiAgentService {
         this.eurekaClient = eurekaClient;
     }
 
-    public String generate(String userMessage) {
+    public String generate(UserMessage userMessage) {
+        return b(userMessage);
+    }
+
+    private String getAiAgentServiceUrl() {
+        InstanceInfo instance = eurekaClient.getNextServerFromEureka("gemini-ai-agent", false);
+        return instance.getHomePageUrl();
+    }
+
+    private String a(UserMessage userMessage) {
         try {
-            InstanceInfo instance = eurekaClient
-                .getApplication("gemini-ai-agent".toUpperCase())
-                .getInstances()
-                .get(0);
+            var baseUrl = getAiAgentServiceUrl();
 
-            String baseUrl = instance.getHomePageUrl();
-
-            HttpRequest request = HttpRequest.newBuilder()
+            var request = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + "api/generate"))
-                    .POST(HttpRequest.BodyPublishers.ofString(userMessage))
+                    .POST(HttpRequest.BodyPublishers.ofString(userMessage.text()))
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
-
+            return httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to call gemini-ai-agent: " + e.getMessage();
+        }
+    }
+
+    private String b(UserMessage userMessage) {
+        // Create multipart body
+        var requestBodyBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("text", userMessage.text());
+        var picture = userMessage.picture();
+        if (Objects.nonNull(picture) && picture.length > 0) {
+            requestBodyBuilder
+                    .addFormDataPart("image", "image.jpg",
+                            RequestBody.create(userMessage.picture(), MediaType.parse("image/jpeg")));
+        }
+
+        // Build the request
+        var baseUrl = getAiAgentServiceUrl();
+        Request request = new Request.Builder()
+                .url(baseUrl + "api/generate-2")
+                .post(requestBodyBuilder.build())
+                .build();
+        try {
+            return new OkHttpClient().newCall(request).execute().body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

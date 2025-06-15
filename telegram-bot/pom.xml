@@ -37,6 +37,16 @@
       <artifactId>telegrambots-client</artifactId>
       <version>8.3.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.telegram</groupId>
+      <artifactId>telegrambots-meta</artifactId>
+      <version>8.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>4.12.0</version> <!-- or latest -->
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
