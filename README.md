@@ -24,3 +24,7 @@ docker-compose down
 ```bash
 docker-compose down -v
 ```
+
+## License
+
+This project is licensed under the MIT License.
