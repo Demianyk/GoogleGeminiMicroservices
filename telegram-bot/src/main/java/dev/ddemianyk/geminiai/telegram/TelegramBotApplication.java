@@ -1,6 +1,6 @@
 package dev.ddemianyk.geminiai.telegram;
 
-import dev.ddemianyk.geminiai.telegram.service.AiAgentService;
+import dev.ddemianyk.geminiai.telegram.service.ai.AiAgentService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -24,7 +24,7 @@ public class TelegramBotApplication {
 
         @GetMapping("/api/call-ms1")
         public String callMs1() {
-            return aiAgentService.fetchMessageFromMs1();
+            return aiAgentService.generate("a");
         }
     }
 }

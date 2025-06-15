@@ -21,6 +21,22 @@
       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
       <version>3.1.8</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.38</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.telegram</groupId>
+      <artifactId>telegrambots-longpolling</artifactId>
+      <version>8.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.telegram</groupId>
+      <artifactId>telegrambots-client</artifactId>
+      <version>8.3.0</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>

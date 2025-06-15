@@ -1,4 +1,4 @@
-package dev.ddemianyk.geminiai.telegram.service;
+package dev.ddemianyk.geminiai.telegram.service.ai;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
@@ -17,7 +17,7 @@ public class AiAgentService {
         this.eurekaClient = eurekaClient;
     }
 
-    public String fetchMessageFromMs1() {
+    public String generate(String userMessage) {
         try {
             InstanceInfo instance = eurekaClient
                 .getApplication("gemini-ai-agent".toUpperCase())
@@ -27,8 +27,8 @@ public class AiAgentService {
             String baseUrl = instance.getHomePageUrl();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseUrl + "api/message"))
-                    .GET()
+                    .uri(URI.create(baseUrl + "api/generate"))
+                    .POST(HttpRequest.BodyPublishers.ofString(userMessage))
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
