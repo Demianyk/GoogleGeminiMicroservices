@@ -1,0 +1,11 @@
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+
+WORKDIR /build
+COPY ../ /build
+RUN mvn -pl telegram-bot -am clean package -DskipTests
+
+FROM eclipse-temurin:17
+WORKDIR /app
+COPY --from=build /build/telegram-bot/target/telegram-bot-*.jar app.jar
+
+ENTRYPOINT ["java", "-Xms64m", "-Xmx128m", "-jar", "/app/app.jar"]

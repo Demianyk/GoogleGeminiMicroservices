@@ -1,7 +1,9 @@
 version: '3.8'
 services:
   discovery:
-    build: ./discovery
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-discovery
     networks:
       - net
     deploy:
@@ -10,7 +12,9 @@ services:
           memory: 160m
 
   gemini-ai-agent:
-    build: ./gemini-ai-agent
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-ai-agent
     depends_on:
       - discovery
     environment:
@@ -23,7 +27,9 @@ services:
           memory: 160m
 
   telegram-bot:
-    build: ./telegram-bot
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-telegram-bot
     depends_on:
       - discovery
       - gemini-ai-agent
