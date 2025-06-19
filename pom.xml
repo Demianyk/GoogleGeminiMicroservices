@@ -71,5 +71,6 @@
         <module>gemini</module>
         <module>common</module>
         <module>telegram</module>
+        <module>monolith</module>
     </modules>
 </project>
