@@ -38,7 +38,7 @@ public class RestSendingAiAgentService implements AiAgentService {
         // Build the request
         var baseUrl = getAiAgentServiceUrl();
         Request request = new Request.Builder()
-                .url(baseUrl + "api/generate-2")
+                .url(baseUrl + "api/generate")
                 .post(requestBodyBuilder.build())
                 .build();
         try {
