@@ -9,13 +9,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
-import dev.ddemianyk.geminiai.telegram.service.ai.AiAgentService;
+import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
 
 import java.io.IOException;
 import java.util.Objects;
 
 @Service
-public class RestSendingAiAgentService implements AiAgentService {
+public class RestSendingAiAgentService implements TelegramMessageToAiAgentMessageDeliveryService {
 
     private final EurekaClient eurekaClient;
 
@@ -23,7 +23,7 @@ public class RestSendingAiAgentService implements AiAgentService {
         this.eurekaClient = eurekaClient;
     }
 
-    public String generate(UserMessage userMessage) {
+    public String getAiResponse(UserMessage userMessage) {
         // Create multipart body
         var requestBodyBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
