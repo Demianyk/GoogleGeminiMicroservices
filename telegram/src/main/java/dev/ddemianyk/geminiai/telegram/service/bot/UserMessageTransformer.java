@@ -25,8 +25,13 @@ public class UserMessageTransformer {
         if (!update.hasMessage()) {
             Optional.empty();
         }
-        var stringBuilder = new StringBuilder();
+
         var telegramMessage = update.getMessage();
+        if(telegramMessage.getText().startsWith("/clear")) {
+            return Optional.of(clearUserContentRequest(telegramMessage.getFrom().getId()));
+        }
+
+        var stringBuilder = new StringBuilder();
         if (telegramMessage.hasCaption()) {
             stringBuilder.append(telegramMessage.getCaption()).append(". ");
         }
@@ -34,6 +39,7 @@ public class UserMessageTransformer {
             stringBuilder.append(telegramMessage.getText());
         }
         return Optional.of(new UserMessage(
+                telegramMessage.getFrom().getId(),
                 stringBuilder.toString(),
                 getPhotoFromUpdate(update)
         ));
@@ -66,6 +72,14 @@ public class UserMessageTransformer {
         } catch (IOException | TelegramApiException e) {
             throw new RuntimeException("Error downloading photo from Telegram: " + e.getMessage(), e);
         }
+    }
 
+    private static UserMessage clearUserContentRequest(Long userId) {
+        return new UserMessage(
+                userId,
+                "",
+                new byte[0],
+                true
+        );
     }
 }

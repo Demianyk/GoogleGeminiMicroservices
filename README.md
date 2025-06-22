@@ -38,6 +38,9 @@ docker build --file .\Dockerfile-monolith -t ai-agent-monolith .
 docker run -e TELEGRAM_BOT_TOKEN="<token>" -e GOOGLE_API_KEY="<API key>" ai-agent-monolith
 ```
 
+## Clearing chat context
+The chat context is stored in memory. To clear it, write `/clear` in the chat with the bot. If not cleared, the context will be retained for the next interaction. It may lead to growing context window and increased response time. Also, it may lead to memory issues if the context grows too large. 
+
 ## License
 
 This project is licensed under the MIT License.

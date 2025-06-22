@@ -27,7 +27,10 @@ public class RestSendingAiAgentService implements TelegramMessageToAiAgentMessag
         // Create multipart body
         var requestBodyBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("text", userMessage.text());
+                .addFormDataPart("userId", userMessage.userId().toString())
+                .addFormDataPart("text", userMessage.text())
+                .addFormDataPart("clearChatHistory", Boolean.toString(userMessage.clearChatHistory()));
+
         var picture = userMessage.picture();
         if (Objects.nonNull(picture) && picture.length > 0) {
             requestBodyBuilder
