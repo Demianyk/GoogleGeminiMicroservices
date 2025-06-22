@@ -1,14 +1,11 @@
 package dev.ddemianyk.geminiai.telegram.service.bot;
 
+import dev.ddemianyk.geminiai.telegram.service.ai.AiAgentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
-import dev.ddemianyk.geminiai.telegram.service.ai.AiAgentService;
 
 @Component
 @Slf4j
@@ -16,7 +13,7 @@ import dev.ddemianyk.geminiai.telegram.service.ai.AiAgentService;
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final AiAgentService aiAgentService;
-    private final TelegramClient telegramClient;
+    private final TelegramMessageSender telegramClient;
     private final UserMessageTransformer userMessageTransformer;
 
     @Override
@@ -31,12 +28,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
                 var aiResponse = aiAgentService.generate(userMessage);
                 log.info("Received message: {}", userMessage.text());
                 Long chatId = update.getMessage().getChatId();
-                SendMessage sendMessage = new SendMessage(chatId.toString(), aiResponse);
-                try {
-                    telegramClient.execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
-                }
+                telegramClient.sendMessage(chatId.toString(), aiResponse);
             });
 
         } catch (Exception e) {
