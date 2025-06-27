@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -25,7 +24,6 @@ public class ImageUploadingResponseGenerator implements ResponseGenerator {
 
     private final ModelProperties modelProperties;
     private final ContentManager contentManager;
-    private final List<Content> chatHistory = new ArrayList<>();
 
     @Override
     public String generate(UserMessage userMessage) {
