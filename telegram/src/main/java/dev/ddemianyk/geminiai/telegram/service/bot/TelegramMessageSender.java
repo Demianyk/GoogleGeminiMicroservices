@@ -13,7 +13,7 @@ public class TelegramMessageSender {
     private final TelegramClient telegramClient;
 
     private final static int MAX_MESSAGE_LENGTH = 4096; // Telegram's maximum message length
-    void sendMessage(String chatId, String message) {
+    void sendMessage(Long chatId, String message) {
 
         if (message.length() <= MAX_MESSAGE_LENGTH) {
             sendChunk(chatId, message);
@@ -28,8 +28,8 @@ public class TelegramMessageSender {
         }
     }
 
-    private void sendChunk(String chatId, String chunk) {
-         SendMessage sendMessage = new SendMessage(chatId, chunk);
+    private void sendChunk(Long chatId, String chunk) {
+        SendMessage sendMessage = SendMessage.builder().chatId(chatId).text(chunk).build();
         try {
             telegramClient.execute(sendMessage);
         } catch (TelegramApiException e) {

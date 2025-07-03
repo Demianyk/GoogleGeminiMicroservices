@@ -24,7 +24,7 @@ public class CommandProcessor {
             case "clear" -> {
                 telegramMessageToAiAgentMessageDeliveryService.clearChatHistory(update.getMessage().getFrom().getId());
                 telegramMessageSender.sendMessage(
-                        update.getMessage().getChatId().toString(),
+                        update.getMessage().getChatId(),
                         "Chat history cleared. Feel free to start a fresh conversation!"
                 );
                 return;

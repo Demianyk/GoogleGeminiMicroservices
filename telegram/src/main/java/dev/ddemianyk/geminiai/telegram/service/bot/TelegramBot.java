@@ -32,8 +32,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
             userMessageOpt.ifPresent(userMessage -> {
                 var aiResponse = telegramMessageToAiAgentMessageDeliveryService.getAiResponse(userMessage);
                 log.info("Received message: {}", userMessage.text());
-                Long chatId = update.getMessage().getChatId();
-                telegramMessageSender.sendMessage(chatId.toString(), aiResponse);
+                telegramMessageSender.sendMessage(update.getMessage().getChatId(), aiResponse);
             });
 
         } catch (Exception e) {
