@@ -4,8 +4,10 @@ import dev.ddemianyk.geminiai.common.domain.UserMessage;
 import dev.ddemianyk.geminiai.gemini.services.AiService;
 import lombok.RequiredArgsConstructor;
 import static org.apache.hc.core5.util.TextUtils.isEmpty;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,5 +38,10 @@ public class AIAgentController {
                                 !isEmpty(clearChatHistory) && Boolean.parseBoolean(clearChatHistory)
                         )
                 );
+    }
+
+    @GetMapping("/clearChatHistory")
+    public void clearChatHistory(@RequestParam(value = "userId") Long userId) {
+        aiService.clearChatHistory(userId);
     }
 }

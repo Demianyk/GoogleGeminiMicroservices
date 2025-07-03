@@ -3,13 +3,13 @@ package dev.ddemianyk.geminiai.ms.telegrambot.service.ai;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import dev.ddemianyk.geminiai.common.domain.UserMessage;
+import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -46,6 +46,20 @@ public class RestSendingAiAgentService implements TelegramMessageToAiAgentMessag
                 .build();
         try {
             return new OkHttpClient().newCall(request).execute().body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clearChatHistory(Long userId) {
+        // Create request to clear chat history
+        var baseUrl = getAiAgentServiceUrl();
+        Request request = new Request.Builder()
+                .url(baseUrl + "api/clearChatHistory?userId=" + userId)
+                .get()
+                .build();
+        try {
+            new OkHttpClient().newCall(request).execute().close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

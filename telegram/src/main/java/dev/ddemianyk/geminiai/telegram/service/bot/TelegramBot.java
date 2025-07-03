@@ -13,22 +13,27 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramMessageToAiAgentMessageDeliveryService telegramMessageToAiAgentMessageDeliveryService;
-    private final TelegramMessageSender telegramClient;
+    private final TelegramMessageSender telegramMessageSender;
     private final UserMessageTransformer userMessageTransformer;
+    private final CommandProcessor commandProcessor;
 
     @Override
     public void consume(Update update) {
         try {
             var userMessageOpt = userMessageTransformer.updateToUserMessage(update);
-            if (!userMessageOpt.isPresent()) {
+            if (userMessageOpt.isEmpty()) {
                 log.info("Received empty message, skipping processing.");
+                return;
+            }
+            if (commandProcessor.isCommand(update)) {
+                commandProcessor.processCommand(update);
                 return;
             }
             userMessageOpt.ifPresent(userMessage -> {
                 var aiResponse = telegramMessageToAiAgentMessageDeliveryService.getAiResponse(userMessage);
                 log.info("Received message: {}", userMessage.text());
                 Long chatId = update.getMessage().getChatId();
-                telegramClient.sendMessage(chatId.toString(), aiResponse);
+                telegramMessageSender.sendMessage(chatId.toString(), aiResponse);
             });
 
         } catch (Exception e) {

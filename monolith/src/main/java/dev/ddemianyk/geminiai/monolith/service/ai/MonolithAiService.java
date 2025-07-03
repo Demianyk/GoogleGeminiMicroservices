@@ -14,4 +14,9 @@ public class MonolithAiService implements TelegramMessageToAiAgentMessageDeliver
     public String getAiResponse(UserMessage userMessage) {
         return aiService.generate(userMessage);
     }
+
+    @Override
+    public void clearChatHistory(Long userId) {
+        aiService.clearChatHistory(userId);
+    }
 }

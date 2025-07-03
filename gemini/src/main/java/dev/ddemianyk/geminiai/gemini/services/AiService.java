@@ -13,10 +13,10 @@ public class AiService {
     private final ChatManager chatManager;
 
     public String generate(UserMessage userMessage) {
-        if (userMessage.clearChatHistory()) {
-            chatManager.clearChatHistory(userMessage.userId());
-            return "Chat history cleared. Feel free to start a fresh conversation!";
-        }
         return imageUploadingResponseGenerator.generate(userMessage);
+    }
+
+    public void clearChatHistory(Long userId) {
+        chatManager.clearChatHistory(userId);
     }
 }
