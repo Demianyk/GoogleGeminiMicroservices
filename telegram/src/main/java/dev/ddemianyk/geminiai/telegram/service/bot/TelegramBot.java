@@ -16,17 +16,22 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
     private final TelegramMessageSender telegramMessageSender;
     private final UserMessageTransformer userMessageTransformer;
     private final CommandProcessor commandProcessor;
+    private final ButtonClickProcessor buttonClickProcessor;
 
     @Override
     public void consume(Update update) {
         try {
+            if (commandProcessor.isCommand(update)) {
+                commandProcessor.processCommand(update);
+                return;
+            }
+            if (buttonClickProcessor.containsCallbackData(update)) {
+                buttonClickProcessor.processCallbackData(update);
+                return;
+            }
             var userMessageOpt = userMessageTransformer.updateToUserMessage(update);
             if (userMessageOpt.isEmpty()) {
                 log.info("Received empty message, skipping processing.");
-                return;
-            }
-            if (commandProcessor.isCommand(update)) {
-                commandProcessor.processCommand(update);
                 return;
             }
             userMessageOpt.ifPresent(userMessage -> {

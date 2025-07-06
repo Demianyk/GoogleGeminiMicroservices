@@ -22,12 +22,12 @@ public class UserMessageTransformer {
     private final TelegramClient telegramClient;
 
     Optional<UserMessage> updateToUserMessage(Update update) {
-        if (!update.hasMessage()) {
-            Optional.empty();
+        if (!update.hasMessage() || !update.getMessage().hasText()) {
+            return Optional.empty();
         }
 
         var telegramMessage = update.getMessage();
-        if(telegramMessage.getText().startsWith("/clear")) {
+        if (telegramMessage.getText().startsWith("/clear")) {
             return Optional.of(clearUserContentRequest(telegramMessage.getFrom().getId()));
         }
 

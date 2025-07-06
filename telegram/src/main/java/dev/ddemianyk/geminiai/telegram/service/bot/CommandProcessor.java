@@ -1,16 +1,17 @@
 package dev.ddemianyk.geminiai.telegram.service.bot;
 
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Component
 @RequiredArgsConstructor
 public class CommandProcessor {
 
-    private final TelegramMessageToAiAgentMessageDeliveryService telegramMessageToAiAgentMessageDeliveryService;
+    private final BotActionsHelper botActionsHelper;
     private final TelegramMessageSender telegramMessageSender;
+    private final TelegramClient telegramClient;
 
     boolean isCommand(Update update) {
         // Check if the message starts with a command prefix (e.g., "/")
@@ -21,17 +22,10 @@ public class CommandProcessor {
         // Process the command and return a response
         String command = update.getMessage().getText().substring(1).split(" ")[0].trim();
         switch (command.toLowerCase()) {
-            case "clear" -> {
-                telegramMessageToAiAgentMessageDeliveryService.clearChatHistory(update.getMessage().getFrom().getId());
-                telegramMessageSender.sendMessage(
-                        update.getMessage().getChatId(),
-                        "Chat history cleared. Feel free to start a fresh conversation!"
-                );
-                return;
-            }
-            default -> {
-                return;
-            }
+            case "clear" ->
+                    botActionsHelper.clearChatHistory(update.getMessage().getFrom().getId(), update.getMessage().getChatId());
+            case "start" -> botActionsHelper.showMainMenu(update);
+            default -> botActionsHelper.handleUnknownCommand(update, command);
         }
     }
 }
