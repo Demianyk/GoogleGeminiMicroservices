@@ -42,5 +42,24 @@ services:
         limits:
           memory: 160m
 
+  web-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-web-app
+    depends_on:
+      - discovery
+      - gemini-ai-agent
+    environment:
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    ports:
+      - "8080:8083"
+    networks:
+      - net
+    deploy:
+      resources:
+        limits:
+          memory: 160m
+
 networks:
   net:

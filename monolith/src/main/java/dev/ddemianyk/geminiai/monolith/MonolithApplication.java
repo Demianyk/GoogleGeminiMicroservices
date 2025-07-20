@@ -12,8 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableConfigurationProperties(ModelProperties.class)
 @ComponentScan(basePackages = {
         "dev.ddemianyk.geminiai.gemini",
+        "dev.ddemianyk.geminiai.monolith",
         "dev.ddemianyk.geminiai.telegram",
-        "dev.ddemianyk.geminiai.monolith"
+        "dev.ddemianyk.geminiai.web",
 })
 public class MonolithApplication {
     public static void main(String[] args) {

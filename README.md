@@ -8,7 +8,7 @@ docker-compose build
 ## Dockerized microservices mode
 
 ### Running
-Set env variables TELEGRAM_BOT_TOKEN and GOOGLE_API_KEY and run
+Set env variables TELEGRAM_BOT_TOKEN, GOOGLE_API_KEY, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and run
 ```bash
 docker-compose up
 ```
@@ -35,7 +35,7 @@ docker build --file .\Dockerfile-monolith -t ai-agent-monolith .
 
 ### Running
 ```bash
-docker run -e TELEGRAM_BOT_TOKEN="<token>" -e GOOGLE_API_KEY="<API key>" ai-agent-monolith
+docker run -e TELEGRAM_BOT_TOKEN="<token>" -e GOOGLE_API_KEY="<API key>" -e GOOGLE_CLIENT_ID="<oauth client id>" -e GOOGLE_CLIENT_SECRET="<oauth client secret>" -p 8080:8080 ai-agent-monolith
 ```
 
 ## Clearing chat context
