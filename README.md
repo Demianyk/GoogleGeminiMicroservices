@@ -34,12 +34,22 @@ docker build --file .\Dockerfile-monolith -t ai-agent-monolith .
 ```
 
 ### Running
+
 ```bash
 docker run -e TELEGRAM_BOT_TOKEN="<token>" -e GOOGLE_API_KEY="<API key>" -e GOOGLE_CLIENT_ID="<oauth client id>" -e GOOGLE_CLIENT_SECRET="<oauth client secret>" -p 8080:8080 ai-agent-monolith
 ```
 
 ## Clearing chat context
-The chat context is stored in memory. To clear it, write `/clear` in the chat with the bot. If not cleared, the context will be retained for the next interaction. It may lead to growing context window and increased response time. Also, it may lead to memory issues if the context grows too large. 
+
+The chat context is stored in memory. To clear it, write `/clear` in the chat with the bot. If not cleared, the context
+will be retained for the next interaction. It may lead to growing context window and increased response time. Also, it
+may lead to memory issues if the context grows too large.
+
+## Web UI
+
+1. Web UI requires authorization via Google OAuth only. To use it, set the environment variables GOOGLE_CLIENT_ID and
+   GOOGLE_CLIENT_SECRET.
+2. List of authorized emails is stored in the `AUTHORIZED_EMAILS` env var. Any other email will be denied access.
 
 ## License
 

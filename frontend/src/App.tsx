@@ -1,9 +1,13 @@
 import {useEffect, useState} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import ChatWindow from "./components/ChatWindow";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
 const loginBaseUrl = API_BASE_URL;
+
+const queryClient = new QueryClient();
 
 function LoginPage() {
     const handleLogin = () => {
@@ -24,7 +28,7 @@ function Spa() {
 
     useEffect(() => {
         fetch(API_BASE_URL + "/api/userinfo", {
-            credentials: "include", // important to send session cookie
+            credentials: "include",
         })
             .then((res) => {
                 if (!res.ok) throw new Error("Not authenticated");
@@ -44,7 +48,6 @@ function Spa() {
     if (!userInfo) return <>
         {redirectToRootButton}
         <div>Loading user info or not logged in...</div>
-        ;
     </>
 
     return (
@@ -52,6 +55,7 @@ function Spa() {
             {redirectToRootButton}
             <div style={{padding: 20}}>
                 <p>Email: {userInfo.email}</p>
+                <ChatWindow></ChatWindow>
             </div>
         </>
 
@@ -61,10 +65,12 @@ function Spa() {
 export default function App() {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LoginPage/>}/>
-                <Route path="/spa" element={<Spa/>}/>
-            </Routes>
+            <QueryClientProvider client={queryClient}>
+                <Routes>
+                    <Route path="/" element={<LoginPage/>}/>
+                    <Route path="/spa" element={<Spa/>}/>
+                </Routes>
+            </QueryClientProvider>
         </BrowserRouter>
     );
 }

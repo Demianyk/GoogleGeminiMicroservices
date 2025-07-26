@@ -1,6 +1,6 @@
 package dev.ddemianyk.geminiai.telegram.service.bot;
 
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
+import dev.ddemianyk.geminiai.common.service.ai.AiAgentMessageExchangeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RequiredArgsConstructor
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
-    private final TelegramMessageToAiAgentMessageDeliveryService telegramMessageToAiAgentMessageDeliveryService;
+    private final AiAgentMessageExchangeService aiAgentMessageExchangeService;
     private final TelegramMessageSender telegramMessageSender;
     private final UserMessageTransformer userMessageTransformer;
     private final CommandProcessor commandProcessor;
@@ -35,7 +35,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
                 return;
             }
             userMessageOpt.ifPresent(userMessage -> {
-                var aiResponse = telegramMessageToAiAgentMessageDeliveryService.getAiResponse(userMessage);
+                var aiResponse = aiAgentMessageExchangeService.getAiResponse(userMessage);
                 log.info("Received message: {}", userMessage.text());
                 telegramMessageSender.sendMessage(update.getMessage().getChatId(), aiResponse);
             });

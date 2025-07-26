@@ -1,21 +1,19 @@
-package dev.ddemianyk.geminiai.ms.telegrambot.service.ai;
+package dev.ddemianyk.geminiai.service.ai;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import dev.ddemianyk.geminiai.common.domain.UserMessage;
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
+import dev.ddemianyk.geminiai.common.service.ai.AiAgentMessageExchangeService;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Objects;
 
-@Service
-public class RestSendingAiAgentService implements TelegramMessageToAiAgentMessageDeliveryService {
+public class RestSendingAiAgentService implements AiAgentMessageExchangeService {
 
     private final EurekaClient eurekaClient;
 

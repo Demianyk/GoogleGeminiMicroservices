@@ -1,14 +1,14 @@
 package dev.ddemianyk.geminiai.monolith.service.ai;
 
 import dev.ddemianyk.geminiai.common.domain.UserMessage;
+import dev.ddemianyk.geminiai.common.service.ai.AiAgentMessageExchangeService;
 import dev.ddemianyk.geminiai.gemini.services.AiService;
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MonolithAiService implements TelegramMessageToAiAgentMessageDeliveryService {
+public class MonolithAiService implements AiAgentMessageExchangeService {
     private final AiService aiService;
 
     public String getAiResponse(UserMessage userMessage) {
