@@ -16,11 +16,6 @@
       <version>3.2.5</version>
     </dependency>
     <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-      <version>3.1.8</version>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.38</version>
@@ -31,9 +26,8 @@
       <artifactId>telegram</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>okhttp</artifactId>
-      <version>4.12.0</version> <!-- or latest -->
+        <groupId>dev.ddemianyk.gemini-ai</groupId>
+        <artifactId>common-services</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

@@ -1,6 +1,6 @@
 package dev.ddemianyk.geminiai.telegram.service.bot;
 
-import dev.ddemianyk.geminiai.telegram.service.ai.TelegramMessageToAiAgentMessageDeliveryService;
+import dev.ddemianyk.geminiai.common.service.ai.AiAgentMessageExchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,12 +14,12 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 @Component
 @RequiredArgsConstructor
 public class BotActionsHelper {
-    private final TelegramMessageToAiAgentMessageDeliveryService telegramMessageToAiAgentMessageDeliveryService;
+    private final AiAgentMessageExchangeService aiAgentMessageExchangeService;
     private final TelegramMessageSender telegramMessageSender;
     private final TelegramClient telegramClient;
 
     void clearChatHistory(Long userId, Long chatId) {
-        telegramMessageToAiAgentMessageDeliveryService.clearChatHistory(userId);
+        aiAgentMessageExchangeService.clearChatHistory(userId);
         telegramMessageSender.sendMessage(chatId, "Chat history cleared. Feel free to start a fresh conversation!");
     }
 

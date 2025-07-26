@@ -1,8 +1,8 @@
-package dev.ddemianyk.geminiai.telegram.service.ai;
+package dev.ddemianyk.geminiai.common.service.ai;
 
 import dev.ddemianyk.geminiai.common.domain.UserMessage;
 
-public interface TelegramMessageToAiAgentMessageDeliveryService {
+public interface AiAgentMessageExchangeService {
     String getAiResponse(UserMessage userMessage);
 
     void clearChatHistory(Long userId);

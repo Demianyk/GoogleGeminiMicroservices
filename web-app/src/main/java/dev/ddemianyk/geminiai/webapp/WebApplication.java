@@ -1,11 +1,12 @@
 package dev.ddemianyk.geminiai.webapp;
 
+import dev.ddemianyk.geminiai.web.WebPackageScanMarker;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {
-        "dev.ddemianyk.geminiai.web",
+@ComponentScan(basePackageClasses = {
+        WebPackageScanMarker.class,
 })
 public class WebApplication {
     public static void main(String[] args) {
