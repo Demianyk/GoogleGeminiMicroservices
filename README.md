@@ -51,6 +51,16 @@ may lead to memory issues if the context grows too large.
    GOOGLE_CLIENT_SECRET.
 2. List of authorized emails is stored in the `AUTHORIZED_EMAILS` env var. Any other email will be denied access.
 
+## ENV Variables meaning
+
+| Variable Name        | Description                                                       |
+|----------------------|-------------------------------------------------------------------|
+| TELEGRAM_BOT_TOKEN   | Telegram Bot Token for the bot to interact with users.            |
+| GOOGLE_API_KEY       | Google API Key for accessing Gemini API.                          |
+| GOOGLE_CLIENT_ID     | OAuth Client ID for Google OAuth authentication.                  |
+| GOOGLE_CLIENT_SECRET | OAuth Client Secret for Google OAuth authentication.              |
+| AUTHORIZED_EMAILS    | Semi-colon-separated list of authorized emails for Web UI access. |
+
 ## License
 
 This project is licensed under the MIT License.
