@@ -38,5 +38,11 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>10.1.41</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.5.0</version>
+        </dependency>
     </dependencies>
 </project>

@@ -1,4 +1,6 @@
 package dev.ddemianyk.geminiai.web.model;
 
-public record UserInfo(String email) {
+import java.util.Set;
+
+public record UserInfo(String email, Set<String> authorities) {
 }
